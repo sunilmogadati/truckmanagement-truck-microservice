@@ -25,6 +25,5 @@ public class Truck {
   String make;
   String model;
   int year;
-  byte[] img;
 
 }
