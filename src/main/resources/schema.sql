@@ -3,4 +3,5 @@ CREATE TABLE truck (
   `make` VARCHAR(45) NULL,
   `model` VARCHAR(45) NULL,
   `year` INT NULL,
+  `img` LONGBLOB NULL,
   PRIMARY KEY (`truck_id`));

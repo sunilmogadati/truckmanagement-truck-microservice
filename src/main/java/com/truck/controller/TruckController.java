@@ -10,6 +10,6 @@ import com.truck.service.TruckService;
 @RequestMapping("/api/v1/truck")
 public class TruckController {
 
-	@Autowired
-	TruckService service;
+  @Autowired
+  TruckService service;
 }

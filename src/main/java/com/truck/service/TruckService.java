@@ -8,6 +8,6 @@ import com.truck.repo.TruckRepo;
 @Service
 public class TruckService {
 
-	@Autowired
-	private TruckRepo repo;
+  @Autowired
+  private TruckRepo repo;
 }
