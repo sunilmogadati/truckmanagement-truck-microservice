@@ -15,6 +15,7 @@
     <description>A trucking app</description>
     <properties>
         <java.version>1.8</java.version>
+        <lombokSource>${project.basedir}/src/main/java/com/truck/</lombokSource>
     </properties>
     <dependencies>
         <dependency>
@@ -29,7 +30,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -46,12 +46,16 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -68,5 +72,35 @@
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+          <id>dlombok</id>
+          <build>
+              <plugins>
+                <plugin>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok-maven-plugin</artifactId>
+                    <version>1.18.20.0</version>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>delombok</goal>
+                            </goals>
+                        </execution>
+                      </executions>
+                      <configuration>
+                          <sourceDirectory>${lombokSource}</sourceDirectory>
+                          <verbose>true</verbose>
+                          <formatPreferences>
+                              <generateDelombokComment>skip</generateDelombokComment>
+                              <javaLangAsFQN>skip</javaLangAsFQN>
+                              <suppressWarnings>skip</suppressWarnings>
+                          </formatPreferences>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+    </profiles>
 </project>
