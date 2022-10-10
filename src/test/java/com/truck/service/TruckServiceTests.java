@@ -1,19 +1,23 @@
-package com.trucking.service;
+package com.truck.service;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import com.truck.entity.Truck;
-import com.truck.service.TruckService;
 
 /**
  * Test the truck service for both predicted successes and failures. The service should be able to
  * handle both gracefully.
  * 
+ * Credit to barnfinds.com and davidsclassiccars.com for their respective photos.
+ * 
  * @author Erik Jepsen
  *
  */
+@TestInstance(Lifecycle.PER_CLASS)
 public class TruckServiceTests {
   private TruckService truckService;
   private Truck truckA, truckB;
@@ -25,9 +29,10 @@ public class TruckServiceTests {
   @BeforeAll
   public void setupService() {
     truckService = new TruckService();
-    truckA = new Truck(1, "Pontiac", "Fiero", 1986);
-    truckB = new Truck(2, "AMC", "Hornet", 1976);
+    truckA = new Truck("Pontiac", "Fiero", 1986); // imageA
+    truckB = new Truck("AMC", "Hornet", 1976); // imageB
   }
+
 
   /**
    * Given a new truck<br/>
@@ -36,12 +41,7 @@ public class TruckServiceTests {
    */
   @Test
   public void givenANewTruck_ServiceAddsTruck_ServiceSuccessfullyAddsTruck() {
-    try {
-      Assert.assertEquals(1, truckService.add(truckA));
-    } catch (Exception e) {
-      System.err.println(e.getMessage());
-      Assert.fail("The service threw an exception.");
-    }
+    Assertions.assertEquals(1, truckService.add(truckA));
   }
 
   /**
@@ -52,7 +52,7 @@ public class TruckServiceTests {
   @Test
   public void givenExistingTruck_ServiceAddTruck_ServiceDoesntAddTruck() {
     truckService.add(truckA);
-    Assert.assertNotEquals(1, truckService.add(truckA));
+    Assertions.assertEquals(0, truckService.add(truckA));
   }
 
   /**
@@ -63,7 +63,7 @@ public class TruckServiceTests {
   @Test
   public void givenDeleteExistingTruck_ServiceDeletesTruck_ReturnsTrue() {
     truckService.add(truckA);
-    Assert.assertTrue(truckService.remove(truckA));
+    Assertions.assertTrue(truckService.remove(truckA));
   }
 
   /**
@@ -73,7 +73,7 @@ public class TruckServiceTests {
    */
   @Test
   public void givenDeleteAbsentTruck_ServiceDeletesTruck_ReturnsFalse() {
-    Assert.assertFalse(truckService.remove(truckA));
+    Assertions.assertFalse(truckService.remove(truckA));
   }
 
   /**
@@ -84,7 +84,7 @@ public class TruckServiceTests {
   @Test
   public void givenExistingTruck_ServiceFindTruck_ReturnsTruck() {
     truckService.add(truckA);
-    Assert.assertEquals(truckA, truckService.find(truckA));
+    Assertions.assertEquals(truckA, truckService.find(1));
   }
 
   /**
@@ -94,7 +94,40 @@ public class TruckServiceTests {
    */
   @Test
   public void givenNonexistentTruck_ServiceFindTruck_ReturnNull() {
-    Assert.assertNull(truckService.find(truckA));
+    Assertions.assertNull(truckService.find(1));
+  }
+
+  /**
+   * Given an existing truck<br/>
+   * Action requested ** Update from truckA to truckB<br/>
+   * Expected result ** (int) 1 (indicating one record altered)
+   */
+  @Test
+  public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnOne() {
+    truckService.add(truckA);
+    Assertions.assertEquals(1, truckService.update(1, truckB));
+  }
+
+  /**
+   * Given an existing truck<br/>
+   * Action requested ** Update from truckA to truckB then find truck record 1<br/>
+   * Expected result ** (bool) true (TruckB == record 1)
+   */
+  @Test
+  public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnTruckB() {
+    truckService.add(truckA);
+    truckService.update(1, truckB);
+    Assertions.assertEquals(truckB, truckService.find(1));
+  }
+
+  /**
+   * Given a nonexistent truck<br/>
+   * Action requested ** Update from truckA to truckB<br/>
+   * Expected result ** (int) 0 (indicating one record altered)
+   */
+  @Test
+  public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnZero() {
+    Assertions.assertEquals(0, truckService.update(1, truckB));
   }
 
   /**
@@ -107,4 +140,5 @@ public class TruckServiceTests {
     if (truckService.find(truckB) != null)
       truckService.remove(truckB);
   }
+
 }

@@ -3,27 +3,22 @@ package com.truck.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * This class was de-Lomboked by Erik to facilitate testing. Direct any comments appropriately.
- * 
- * @author Pirai Ojeda
- *
- */
 @Entity(name = "TruckEntity")
 @Table(name = "truck")
 public class Truck {
   @Id
   @Column(name = "truck_id")
-  @GeneratedValue
-  private int truck_id;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer truck_id;
   String make;
   String model;
-  int year;
+  Integer year;
 
-  public int getTruck_id() {
+  public Integer getTruck_id() {
     return this.truck_id;
   }
 
@@ -35,11 +30,11 @@ public class Truck {
     return this.model;
   }
 
-  public int getYear() {
+  public Integer getYear() {
     return this.year;
   }
 
-  public void setTruck_id(final int truck_id) {
+  public void setTruck_id(final Integer truck_id) {
     this.truck_id = truck_id;
   }
 
@@ -51,7 +46,7 @@ public class Truck {
     this.model = model;
   }
 
-  public void setYear(final int year) {
+  public void setYear(final Integer year) {
     this.year = year;
   }
 
@@ -64,9 +59,13 @@ public class Truck {
     final Truck other = (Truck) o;
     if (!other.canEqual((Object) this))
       return false;
-    if (this.getTruck_id() != other.getTruck_id())
+    final Object this$truck_id = this.getTruck_id();
+    final Object other$truck_id = other.getTruck_id();
+    if (this$truck_id == null ? other$truck_id != null : !this$truck_id.equals(other$truck_id))
       return false;
-    if (this.getYear() != other.getYear())
+    final Object this$year = this.getYear();
+    final Object other$year = other.getYear();
+    if (this$year == null ? other$year != null : !this$year.equals(other$year))
       return false;
     final Object this$make = this.getMake();
     final Object other$make = other.getMake();
@@ -87,8 +86,10 @@ public class Truck {
   public int hashCode() {
     final int PRIME = 59;
     int result = 1;
-    result = result * PRIME + this.getTruck_id();
-    result = result * PRIME + this.getYear();
+    final Object $truck_id = this.getTruck_id();
+    result = result * PRIME + ($truck_id == null ? 43 : $truck_id.hashCode());
+    final Object $year = this.getYear();
+    result = result * PRIME + ($year == null ? 43 : $year.hashCode());
     final Object $make = this.getMake();
     result = result * PRIME + ($make == null ? 43 : $make.hashCode());
     final Object $model = this.getModel();
@@ -102,11 +103,16 @@ public class Truck {
         + this.getModel() + ", year=" + this.getYear() + ")";
   }
 
-  public Truck(final int truck_id, final String make, final String model, final int year) {
+  protected Truck(final Integer truck_id, final String make, final String model,
+      final Integer year) {
     this.truck_id = truck_id;
     this.make = make;
     this.model = model;
     this.year = year;
+  }
+
+  public Truck(final String make, final String model, final Integer year) {
+    this((Integer) null, make, model, year);
   }
 
   public Truck() {}
