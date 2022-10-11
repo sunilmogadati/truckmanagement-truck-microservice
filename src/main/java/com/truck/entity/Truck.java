@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import com.truck.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +25,10 @@ public class Truck {
 	String make;
 	String model;
 	int yr;
+	String weight;
+	String volume;
+	int mpg;
+	String space;
+	Type type;
 
 }
