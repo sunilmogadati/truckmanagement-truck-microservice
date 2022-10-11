@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "truck")
 public class Truck {
 
-  @Id
-  @Column(name = "truck_id")
-  @GeneratedValue
-  private int truck_id;
+	@Id
+	@Column(name = "truck_id")
+	@GeneratedValue
+	private int truck_id;
 
-  String make;
-  String model;
-  int year;
+	String make;
+	String model;
+	int yr;
 
 }
