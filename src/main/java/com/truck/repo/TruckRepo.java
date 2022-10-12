@@ -2,10 +2,8 @@ package com.truck.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.truck.entity.Truck;
-import org.springframework.stereotype.Repository;
+import com.truck.entity.TruckEntity;
 
-@Repository
-public interface TruckRepo extends JpaRepository<Truck, Integer> {
+public interface TruckRepo extends JpaRepository<TruckEntity, Integer> {
 
 }
