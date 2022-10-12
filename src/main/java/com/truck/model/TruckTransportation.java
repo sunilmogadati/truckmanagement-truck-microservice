@@ -11,7 +11,7 @@ public class TruckTransportation {
   int truckId;
   String make;
   String model;
-  int year;
+  int yr;
   String weight;
   String volume;
   int mpg;
@@ -54,12 +54,12 @@ public class TruckTransportation {
     this.model = model;
   }
 
-  public int getYear() {
-    return year;
+  public int getYr() {
+    return yr;
   }
 
-  public void setYear(int year) {
-    this.year = year;
+  public void setYear(int yr) {
+    this.yr = yr;
   }
 
   public String getWeight() {
@@ -153,7 +153,7 @@ public class TruckTransportation {
   @Override
   public String toString() {
     return "TruckTransportation [truckId=" + truckId + ", make=" + make + ", model=" + model
-        + ", year=" + year + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
+        + ", yr=" + yr + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
         + ", space=" + space + ", type=" + type + ", routeId=" + routeId + ", startDate="
         + startDate + ", endDate=" + endDate + ", source=" + source + ", destination=" + destination
         + ", status=" + status + "]";
