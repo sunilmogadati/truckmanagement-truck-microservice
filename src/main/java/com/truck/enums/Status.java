@@ -1,6 +1,5 @@
 package com.truck.enums;
 
 public enum Status {
-	COMPLETED, NON_COMPLETED;
-
+  IN_PROGRESS, DELAYED, STARTED, COMPLETED, SCHEDULED
 }
