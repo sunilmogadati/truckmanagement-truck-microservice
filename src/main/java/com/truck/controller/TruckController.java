@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.truck.service.TruckService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -36,8 +37,8 @@ public class TruckController {
   }
 
   @GetMapping
-  public ResponseEntity<List<Truck>> findAllTrucks() {
-    return ResponseEntity.ok(service.getAllTrucks());
+  public ResponseEntity<List<Truck>> findAllTrucks(@RequestParam Map<String, String> query) {
+    return ResponseEntity.ok(service.getAllTrucksExt(query));
   }
 
   @GetMapping("/make/{value}")

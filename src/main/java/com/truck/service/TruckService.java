@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TruckService {
@@ -30,6 +31,80 @@ public class TruckService {
   @Transactional(readOnly = true)
   public List<Truck> getAllTrucks() {
     return repo.findAll();
+  }
+
+  @Transactional(readOnly = true)
+  public List<Truck> getAllTrucksExt(Map<String, String> query) {
+    if (query.isEmpty()) {
+      return repo.findAll();
+    }
+    List<Truck> truckList = repo.findAll();
+    List<Truck> newList = new ArrayList<>();
+    String queryString = "";
+    int page = 1;
+    int pageSize = -1;
+    newList.addAll(truckList);
+
+    queryString = query.get("make");
+    if (queryString != null) {
+      for (Truck truck : truckList) {
+        if (!queryString.equalsIgnoreCase(truck.getMake())) {
+          newList.remove(truck);
+        }
+      }
+    }
+
+    queryString = query.get("model");
+    if (queryString != null) {
+      for (Truck truck : truckList) {
+        if (!queryString.equalsIgnoreCase(truck.getModel())) {
+          newList.remove(truck);
+        }
+      }
+    }
+
+    queryString = query.get("year");
+    if (queryString != null) {
+      for (Truck truck : truckList) {
+        try {
+          if (!(truck.getYear() == Integer.parseInt(queryString))) {
+            newList.remove(truck);
+          }
+        } catch (NumberFormatException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    queryString = query.get("page");
+    try {
+      page = Integer.parseInt(queryString);
+      if (page < 1) {page = 1;}
+    } catch (NumberFormatException e) {
+      page = 1;
+    }
+
+    queryString = query.get("page-size");
+    try {
+      pageSize = Integer.parseInt(queryString);
+      if (pageSize < 1) {pageSize = -1;}
+    } catch (NumberFormatException e) {
+      pageSize = -1;
+    }
+
+    if (pageSize == -1) {
+      return newList;
+    }
+
+    List<Truck> pageList = new ArrayList<>();
+    int index = 0;
+    for (int i = 0; i < pageSize; i++) {
+      index = (((page - 1) * pageSize) + i);
+      if (index < newList.size()) {
+        pageList.add(newList.get(index));
+      }
+    }
+    return pageList;
   }
 
   @Transactional(readOnly = true)
