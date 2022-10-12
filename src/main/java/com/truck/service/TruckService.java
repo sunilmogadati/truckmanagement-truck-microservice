@@ -25,7 +25,8 @@ public class TruckService {
 
   @Transactional(readOnly = true)
   public Truck getTruckById(int id) {
-    return repo.findById(id).orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
+    return repo.findById(id)
+        .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
   }
 
   @Transactional(readOnly = true)
@@ -79,7 +80,9 @@ public class TruckService {
     queryString = query.get("page");
     try {
       page = Integer.parseInt(queryString);
-      if (page < 1) {page = 1;}
+      if (page < 1) {
+        page = 1;
+      }
     } catch (NumberFormatException e) {
       page = 1;
     }
@@ -87,7 +90,9 @@ public class TruckService {
     queryString = query.get("page-size");
     try {
       pageSize = Integer.parseInt(queryString);
-      if (pageSize < 1) {pageSize = -1;}
+      if (pageSize < 1) {
+        pageSize = -1;
+      }
     } catch (NumberFormatException e) {
       pageSize = -1;
     }
@@ -151,7 +156,8 @@ public class TruckService {
 
   @Transactional
   public void deleteTruck(int id) {
-    Truck truck = repo.findById(id).orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
+    Truck truck = repo.findById(id)
+        .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
     repo.delete(truck);
   }
 }
