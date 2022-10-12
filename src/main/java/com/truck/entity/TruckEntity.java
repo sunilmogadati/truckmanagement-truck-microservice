@@ -27,6 +27,22 @@ public class TruckEntity {
   @Enumerated(EnumType.STRING)
   Type type;
 
+  public TruckEntity() {}
+  
+  public TruckEntity(int truck_id, String make, String model, int yr, String weight, String volume,
+      int mpg, String space, Type type) {
+    super();
+    this.truck_id = truck_id;
+    this.make = make;
+    this.model = model;
+    this.yr = yr;
+    this.weight = weight;
+    this.volume = volume;
+    this.mpg = mpg;
+    this.space = space;
+    this.type = type;
+  }
+
   public int getTruck_id() {
     return truck_id;
   }
