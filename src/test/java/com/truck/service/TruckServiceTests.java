@@ -1,12 +1,19 @@
 package com.truck.service;
 
+import java.util.Optional;
+import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit4.SpringRunner;
 import com.truck.entity.Truck;
+import com.truck.repo.TruckRepo;
 
 /**
  * Test the truck service for both predicted successes and failures. The service should be able to
@@ -17,31 +24,27 @@ import com.truck.entity.Truck;
  * @author Erik Jepsen
  *
  */
-@TestInstance(Lifecycle.PER_CLASS)
+@RunWith(SpringRunner.class)
 public class TruckServiceTests {
-  private TruckService truckService;
-  private Truck truckA, truckB;
 
-  /**
-   * This initializes the service for testing. In testing, we use H2 for in-memory DB transactions.
-   * In production, this will be handled by an AWS server running MySql.
-   */
-  @BeforeAll
-  public void setupService() {
-    truckService = new TruckService();
-    truckA = new Truck("Pontiac", "Fiero", 1986); // imageA
-    truckB = new Truck("AMC", "Hornet", 1976); // imageB
+  @TestConfiguration
+  static class TruckServiceImplTestContextConfig {
+    @Bean
+    public TruckService truckService() {
+      return new TruckService();
+    }
   }
 
+  @Autowired
+  private TruckService truckService;
+  @MockBean
+  private TruckRepo truckRepo;
+  private Truck truckA = new Truck("AMC", "Hornet", 1976);
+  private Truck truckB = new Truck("Pontiac", "Fiero", 1986);
 
-  /**
-   * Given a new truck<br/>
-   * Action requested ** Add truck to DB.<br/>
-   * Expected result ** (int) 1 (indicating 1 record added.)<br/>
-   */
-  @Test
-  public void givenANewTruck_ServiceAddsTruck_ServiceSuccessfullyAddsTruck() {
-    Assertions.assertEquals(1, truckService.add(truckA));
+  @Before
+  public void setup() {
+    Mockito.when(truckRepo.findById(1)).thenReturn(Optional.of(truckA));
   }
 
   /**

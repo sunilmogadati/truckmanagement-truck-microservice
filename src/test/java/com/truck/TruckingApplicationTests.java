@@ -1,14 +1,15 @@
 package com.truck;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 
 @SpringBootTest
-@Configuration
-class TruckingApplicationTests {
+public class TruckingApplicationTests {
 
   @Test
-  void contextLoads() {}
+  public void contextLoads() {
+    Assert.assertTrue(true);
+  }
 
 }
