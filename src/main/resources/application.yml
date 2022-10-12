@@ -1,8 +1,12 @@
-server:
-  port: 9000
-
 spring:
-  profiles:
-    active:
-    - dev
-    - prod
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    url: jdbc:h2:mem:db;
+    password: sa
+  h2:
+    console:
+      enabled: 'true'
+      path: /h2
+  jpa:
+    show-sql: true
