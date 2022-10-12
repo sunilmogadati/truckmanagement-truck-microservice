@@ -10,5 +10,4 @@ public class TruckController {
 
   @Autowired
   TruckService service;
-  
 }
