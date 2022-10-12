@@ -17,7 +17,7 @@ import java.util.Map;
 public class TruckController {
 
   private TruckService service;
-  
+
   @Autowired
   public TruckController(TruckService service) {
     this.service = service;
