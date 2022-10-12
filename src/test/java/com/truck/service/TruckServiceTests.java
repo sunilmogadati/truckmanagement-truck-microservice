@@ -1,17 +1,20 @@
 package com.truck.service;
 
 import java.util.Optional;
-import org.junit.Before;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.Answer1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.truck.entity.Truck;
 import com.truck.repo.TruckRepo;
 
@@ -24,7 +27,7 @@ import com.truck.repo.TruckRepo;
  * @author Erik Jepsen
  *
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class TruckServiceTests {
 
   @TestConfiguration
@@ -39,24 +42,10 @@ public class TruckServiceTests {
   private TruckService truckService;
   @MockBean
   private TruckRepo truckRepo;
-  private Truck truckA = new Truck("AMC", "Hornet", 1976);
-  private Truck truckB = new Truck("Pontiac", "Fiero", 1986);
 
-  @Before
-  public void setup() {
-    Mockito.when(truckRepo.findById(1)).thenReturn(Optional.of(truckA));
-  }
+  private final Truck truckA = new Truck(1, "AMC", "Hornet", 1976);
+  private final Truck truckB = new Truck(1, "Pontiac", "Fiero", 1986);
 
-  /**
-   * Given an existing truck<br/>
-   * Action requested ** Add truck to DB.<br/>
-   * Expected result ** (int) 0 (indicating 0 records were added.)
-   */
-  @Test
-  public void givenExistingTruck_ServiceAddTruck_ServiceDoesntAddTruck() {
-    truckService.add(truckA);
-    Assertions.assertEquals(0, truckService.add(truckA));
-  }
 
   /**
    * Given an existing truck<br/>
@@ -64,19 +53,34 @@ public class TruckServiceTests {
    * Expected result ** (bool) true (indicating the truck was deleted)
    */
   @Test
-  public void givenDeleteExistingTruck_ServiceDeletesTruck_ReturnsTrue() {
-    truckService.add(truckA);
-    Assertions.assertTrue(truckService.remove(truckA));
+  public void givenDeleteExistingTruck_ServiceDeletesTruck_ReturnsNullWhenSearched() {
+    // Given
+    Mockito.when(truckRepo.findById(1)).thenReturn(Optional.of(truckA));
+    Answer<Integer> ans = new Answer<Integer>() {
+      @Override
+      public Integer answer(InvocationOnMock invocation) throws Throwable {
+        Mockito.when(truckRepo.findById(1)).thenReturn(Optional.empty());
+        return 0;
+      }
+    };
+    Mockito.lenient().doAnswer(ans).when(truckRepo).delete(truckA);
+    Truck inTruck = truckService.addTruck(truckA);
+
+    //When
+    truckService.deleteTruck(1);
+
+    //Assert
+    Assertions.assertThrows(RuntimeException.class, () -> truckService.getTruckById(1));
   }
 
   /**
    * Given a nonexistent truck<br/>
    * Action requested ** Delete the truck<br/>
-   * Expected result ** (bool) false (indicating the truck was not deleted)
+   * Expected result ** (Exception) RuntimeException: Truck wasn't found.
    */
   @Test
-  public void givenDeleteAbsentTruck_ServiceDeletesTruck_ReturnsFalse() {
-    Assertions.assertFalse(truckService.remove(truckA));
+  public void givenDeleteAbsentTruck_ServiceDeletesTruck_ThrowsException() {
+    Assertions.assertThrows(RuntimeException.class, () -> truckService.deleteTruck(Integer.MAX_VALUE));
   }
 
   /**
@@ -86,8 +90,10 @@ public class TruckServiceTests {
    */
   @Test
   public void givenExistingTruck_ServiceFindTruck_ReturnsTruck() {
-    truckService.add(truckA);
-    Assertions.assertEquals(truckA, truckService.find(1));
+    Mockito.when(truckRepo.save(truckA)).thenReturn(truckA);
+    Mockito.when(truckRepo.findById(1)).thenReturn(Optional.of(truckA));
+    Truck inTruck = truckService.addTruck(truckA);
+    Assertions.assertEquals(inTruck, truckService.getTruckById(inTruck.getId()));
   }
 
   /**
@@ -96,52 +102,53 @@ public class TruckServiceTests {
    * Expected result ** Null (Truck sought isn't in the DB)
    */
   @Test
-  public void givenNonexistentTruck_ServiceFindTruck_ReturnNull() {
-    Assertions.assertNull(truckService.find(1));
+  public void givenNonexistentTruck_ServiceFindTruck_ThrowsException() {
+    Assertions.assertThrows(RuntimeException.class,
+      () -> truckService.getTruckById(Integer.MAX_VALUE));
   }
 
   /**
    * Given an existing truck<br/>
    * Action requested ** Update from truckA to truckB<br/>
    * Expected result ** (int) 1 (indicating one record altered)
-   */
-  @Test
+  @Ignore
   public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnOne() {
-    truckService.add(truckA);
-    Assertions.assertEquals(1, truckService.update(1, truckB));
+    Truck inTruck = truckService.addTruck(truckA);
+    Assertions.assertEquals(inTruck.getId(), truckService.update(inTruck.getId(), truckB));
   }
+   */
 
   /**
    * Given an existing truck<br/>
    * Action requested ** Update from truckA to truckB then find truck record 1<br/>
-   * Expected result ** (bool) true (TruckB == record 1)
-   */
+   * Expected result ** (bool) true (TruckB == truckService.FindTruckById(TruckA.getId()))
   @Test
   public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnTruckB() {
-    truckService.add(truckA);
-    truckService.update(1, truckB);
-    Assertions.assertEquals(truckB, truckService.find(1));
+    Truck inTruck = truckService.addTruck(truckA);
+    Truck updatedTruck = truckService.updateTruck(inTruck.getId(), truckB);
+    Assertions.assertEquals(updatedTruck, truckService.getTruckById(inTruck.getId()));
   }
+   */
 
   /**
    * Given a nonexistent truck<br/>
    * Action requested ** Update from truckA to truckB<br/>
    * Expected result ** (int) 0 (indicating one record altered)
-   */
   @Test
   public void givenExistingTruck_ServiceUpdateTruckFromAtoB_ReturnZero() {
     Assertions.assertEquals(0, truckService.update(1, truckB));
   }
+   */
 
   /**
    * After each test, if a test object is still in the DB, remove it.
    */
   @AfterEach
   public void removeTestObjectsFromDB() {
-    if (truckService.find(truckA) != null)
-      truckService.remove(truckA);
-    if (truckService.find(truckB) != null)
-      truckService.remove(truckB);
+    for (Truck thisTruck: truckService.getAllTrucksConditional(0, "AMC"))
+      truckService.deleteTruck(thisTruck.getId());
+    for (Truck thisTruck: truckService.getAllTrucksConditional(0, "Pontiac"))
+      truckService.deleteTruck(thisTruck.getId());
   }
 
 }

@@ -15,16 +15,11 @@ import java.util.Map;
 @Service
 public class TruckService {
 
-
+  @Autowired
   private TruckRepo repo;
 
-  @Autowired
-  public TruckService(TruckRepo repo) {
-    this.repo = repo;
-  }
-
   @Transactional(readOnly = true)
-  public Truck getTruckById(int id) {
+  public Truck getTruckById(int id) throws RuntimeException {
     return repo.findById(id).orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
   }
 
@@ -150,7 +145,7 @@ public class TruckService {
   }
 
   @Transactional
-  public void deleteTruck(int id) {
+  public void deleteTruck(int id) throws RuntimeException {
     Truck truck = repo.findById(id).orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
     repo.delete(truck);
   }
