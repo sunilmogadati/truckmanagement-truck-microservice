@@ -9,5 +9,5 @@ public class TruckService {
 
   @Autowired
   private TruckRepo repo;
-  
+
 }
