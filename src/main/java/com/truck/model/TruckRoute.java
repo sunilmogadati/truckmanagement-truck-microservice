@@ -1,8 +1,6 @@
 package com.truck.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-
 import com.truck.enums.Status;
 
 public class TruckRoute {
@@ -10,11 +8,22 @@ public class TruckRoute {
   private int id;
   private LocalDate startDate;
   private LocalDate endDate;
-  private LocalTime startTime;
-  private LocalDate endTime;
-  // private Destination From;
-  // private Destination To;
+  private String source;
+  private String destination;
   private Status status;
+
+  public TruckRoute() {}
+
+  public TruckRoute(int id, LocalDate startDate, LocalDate endDate, String source,
+      String destination, Status status) {
+    super();
+    this.id = id;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.source = source;
+    this.destination = destination;
+    this.status = status;
+  }
 
   public int getId() {
     return id;
@@ -40,20 +49,20 @@ public class TruckRoute {
     this.endDate = endDate;
   }
 
-  public LocalTime getStartTime() {
-    return startTime;
+  public String getSource() {
+    return source;
   }
 
-  public void setStartTime(LocalTime startTime) {
-    this.startTime = startTime;
+  public void setSource(String source) {
+    this.source = source;
   }
 
-  public LocalDate getEndTime() {
-    return endTime;
+  public String getDestination() {
+    return destination;
   }
 
-  public void setEndTime(LocalDate endTime) {
-    this.endTime = endTime;
+  public void setDestination(String destination) {
+    this.destination = destination;
   }
 
   public Status getStatus() {
@@ -67,7 +76,7 @@ public class TruckRoute {
   @Override
   public String toString() {
     return "TruckRoute [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate
-        + ", startTime=" + startTime + ", endTime=" + endTime + ", status=" + status + "]";
+        + ", source=" + source + ", destination=" + destination + ", status=" + status + "]";
   }
 
 }
