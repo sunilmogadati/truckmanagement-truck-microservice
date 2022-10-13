@@ -45,4 +45,4 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: Run Tests
-        run: mvn -B test
+        run: mvn clean install -Dmaven.test.skip
