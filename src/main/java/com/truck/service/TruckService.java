@@ -15,13 +15,8 @@ import java.util.Map;
 @Service
 public class TruckService {
 
-
-  private TruckRepo repo;
-
   @Autowired
-  public TruckService(TruckRepo repo) {
-    this.repo = repo;
-  }
+  private TruckRepo repo;
 
   @Transactional(readOnly = true)
   public Truck getTruckById(int id) {
