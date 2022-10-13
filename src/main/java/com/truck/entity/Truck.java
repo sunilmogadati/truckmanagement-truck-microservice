@@ -40,6 +40,8 @@ public class Truck {
   private Type type;
 
   public Truck() {}
+  
+  public Truck(int id, String make, String model, int year) {}
 
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
       String space, Type type) {
