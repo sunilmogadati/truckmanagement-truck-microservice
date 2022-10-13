@@ -41,7 +41,9 @@ public class Truck {
 
   public Truck() {}
   
-  public Truck(int id, String make, String model, int year) {}
+  public Truck(int id, String make, String model, int year) {
+    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS);
+  }
 
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
       String space, Type type) {
