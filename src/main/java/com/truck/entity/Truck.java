@@ -1,6 +1,8 @@
 package com.truck.entity;
 
+import com.truck.enums.Type;
 import javax.persistence.*;
+import lombok.*;
 
 @Data
 @Entity(name = "TruckEntity")
@@ -131,6 +133,4 @@ public class Truck {
         + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space=" + space
         + ", type=" + type + "]";
   }
-
-
 }
