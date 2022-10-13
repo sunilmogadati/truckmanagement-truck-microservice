@@ -8,7 +8,7 @@ import com.truck.enums.Type;
 
 public class TruckTransportation {
   // TRUCK PROPERTIES
-  int truckId;
+  int truckID;
   String make;
   String model;
   int yr;
@@ -19,7 +19,7 @@ public class TruckTransportation {
   Type type;
 
   // TRANSPORTATION PROPERTIES
-  String routeId;
+  String routeID;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate startDate;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -30,12 +30,12 @@ public class TruckTransportation {
 
   public TruckTransportation() {}
 
-  public int getTruckId() {
-    return truckId;
+  public int getTruckID() {
+    return truckID;
   }
 
-  public void setTruckId(int truckId) {
-    this.truckId = truckId;
+  public void setTruckID(int truckID) {
+    this.truckID = truckID;
   }
 
   public String getMake() {
@@ -102,12 +102,12 @@ public class TruckTransportation {
     this.type = type;
   }
 
-  public String getRouteId() {
-    return routeId;
+  public String getRouteID() {
+    return routeID;
   }
 
-  public void setRouteId(String routeId) {
-    this.routeId = routeId;
+  public void setRouteID(String routeID) {
+    this.routeID = routeID;
   }
 
   public LocalDate getStartDate() {
@@ -152,10 +152,10 @@ public class TruckTransportation {
 
   @Override
   public String toString() {
-    return "TruckTransportation [truckId=" + truckId + ", make=" + make + ", model=" + model
-        + ", yr=" + yr + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
-        + ", space=" + space + ", type=" + type + ", routeId=" + routeId + ", startDate="
-        + startDate + ", endDate=" + endDate + ", source=" + source + ", destination=" + destination
+    return "TruckTransportation [truckID=" + truckID + ", make=" + make + ", model=" + model
+        + ", yr=" + yr + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space="
+        + space + ", type=" + type + ", routeID=" + routeID + ", startDate=" + startDate
+        + ", endDate=" + endDate + ", source=" + source + ", destination=" + destination
         + ", status=" + status + "]";
   }
 }
