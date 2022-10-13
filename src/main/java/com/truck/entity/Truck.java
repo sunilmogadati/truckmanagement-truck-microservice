@@ -2,9 +2,7 @@ package com.truck.entity;
 
 import com.truck.enums.Type;
 import javax.persistence.*;
-import lombok.*;
 
-@Data
 @Entity(name = "TruckEntity")
 @Table(name = "trucks")
 public class Truck {
