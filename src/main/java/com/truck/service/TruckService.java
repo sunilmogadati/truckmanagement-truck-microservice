@@ -72,6 +72,28 @@ public class TruckService {
       }
     }
 
+    queryString = query.get("mpg");
+    if (queryString != null) {
+      for (Truck truck : truckList) {
+        try {
+          if (!(truck.getMpg() == Integer.parseInt(queryString))) {
+            newList.remove(truck);
+          }
+        } catch (NumberFormatException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    queryString = query.get("type");
+    if (queryString != null) {
+      for (Truck truck : truckList) {
+        if (!(truck.getType().toString().equalsIgnoreCase(queryString))) {
+          newList.remove(truck);
+        }
+      }
+    }
+
     queryString = query.get("page");
     try {
       page = Integer.parseInt(queryString);
