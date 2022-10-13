@@ -2,7 +2,7 @@ package com.truck.entity;
 
 import com.truck.enums.Type;
 import javax.persistence.*;
-import lombok.*;
+// import lombok.*;
 
 @Data
 @Entity(name = "TruckEntity")
@@ -127,10 +127,12 @@ public class Truck {
     this.type = type;
   }
 
+/*
   public Truck(int id, String make, String model, int year) {
     this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS);
   }
-
+*/
+  
   @Override
   public String toString() {
     return "Truck [id=" + id + ", make=" + make + ", model=" + model + ", year=" + year
