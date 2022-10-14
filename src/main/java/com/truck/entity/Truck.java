@@ -2,9 +2,7 @@ package com.truck.entity;
 
 import com.truck.enums.Type;
 import javax.persistence.*;
-import lombok.*;
 
-@Data
 @Entity(name = "TruckEntity")
 @Table(name = "trucks")
 public class Truck {
@@ -41,10 +39,6 @@ public class Truck {
 
   public Truck() {}
   
-  public Truck(int id, String make, String model, int year) {
-    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS);
-  }
-
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
       String space, Type type) {
     super();
@@ -57,6 +51,10 @@ public class Truck {
     this.mpg = mpg;
     this.space = space;
     this.type = type;
+  }
+  
+  public Truck(int id, String make, String model, int year) {
+    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS);
   }
 
   public int getId() {

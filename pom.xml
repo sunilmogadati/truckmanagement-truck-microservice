@@ -71,6 +71,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>truck-aws</finalName>
     </build>
     <profiles>
         <profile>
