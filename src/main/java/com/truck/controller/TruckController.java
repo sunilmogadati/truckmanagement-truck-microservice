@@ -1,5 +1,8 @@
 package com.truck.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.truck.entity.Route;
 import com.truck.entity.Truck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import java.util.Map;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/truck")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TruckController {
 
   private TruckService service;
@@ -70,5 +75,14 @@ public class TruckController {
     }
 
     return new ResponseEntity<Truck>(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/routes")
+  public ResponseEntity<List<Route>> findAllRoutes() {
+    try {
+      return ResponseEntity.ok(service.getAllRoutes());
+    } catch (Exception e) {
+      return new ResponseEntity<List<Route>>(HttpStatus.NOT_FOUND);
+    }
   }
 }

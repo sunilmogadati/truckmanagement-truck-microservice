@@ -1,5 +1,6 @@
 server:
   port: 9000
+  url: http://ec2-3-87-185-23.compute-1.amazonaws.com:8080
 
 spring:
   profiles:

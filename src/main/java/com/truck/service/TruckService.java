@@ -1,12 +1,17 @@
 package com.truck.service;
 
+import com.truck.entity.Route;
 import com.truck.entity.Truck;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 import com.truck.repo.TruckRepo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +22,13 @@ public class TruckService {
 
   @Autowired
   private TruckRepo repo;
+
+  @Autowired
+  private CircuitBreakerFactory circuitBreakerFactory;
+
+  RestTemplate restTemplate = new RestTemplate();
+  @Value("${server.url}")
+  String serverURL;
 
   @Transactional(readOnly = true)
   public Truck getTruckById(int id) {
@@ -176,5 +188,12 @@ public class TruckService {
     Truck truck = repo.findById(id)
         .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
     repo.delete(truck);
+  }
+
+  public List<Route> getAllRoutes() {
+    CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
+    ArrayList arrayList = new ArrayList();
+    return circuitBreaker.run(() -> restTemplate.getForObject(serverURL + "/api/vi/transportation/route", List.class),
+            throwable -> arrayList);
   }
 }
