@@ -60,7 +60,12 @@ public class TruckController {
   public ResponseEntity<Truck> addTruck(@RequestBody Truck truck) {
     return ResponseEntity.ok(service.addTruck(truck));
   }
-
+  
+  @PutMapping
+  public ResponseEntity<Truck> put(@RequestBody Truck truck){
+    return ResponseEntity.ok(service.put(truck));
+  }
+  
   @DeleteMapping("/{id}")
   public ResponseEntity<Truck> deleteTruck(@PathVariable("id") int id) {
     try {

@@ -36,11 +36,13 @@ public class Truck {
   @Column(name = "truck_type", columnDefinition = "ENUM('GAS','HYBRID','ELECTRIC')")
   @Enumerated(EnumType.STRING)
   private Type type;
+  
+  private String img;
 
   public Truck() {}
   
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
-      String space, Type type) {
+      String space, Type type, String img) {
     super();
     this.id = id;
     this.make = make;
@@ -51,10 +53,11 @@ public class Truck {
     this.mpg = mpg;
     this.space = space;
     this.type = type;
+    this.img = img;
   }
-  
+
   public Truck(int id, String make, String model, int year) {
-    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS);
+    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS, null);
   }
 
   public int getId() {
@@ -129,12 +132,19 @@ public class Truck {
     this.type = type;
   }
 
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
+
   @Override
   public String toString() {
     return "Truck [id=" + id + ", make=" + make + ", model=" + model + ", year=" + year
         + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space=" + space
-        + ", type=" + type + "]";
+        + ", type=" + type + ", img=" + img + "]";
   }
-
 
 }

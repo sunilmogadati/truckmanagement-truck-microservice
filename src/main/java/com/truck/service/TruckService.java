@@ -148,6 +148,22 @@ public class TruckService {
   public Truck addTruck(Truck truck) {
     return repo.save(truck);
   }
+  
+  @Transactional
+  public Truck put(Truck truck) {
+    Truck updatedTruck = repo.findById(truck.getId()).orElse(null);
+    
+    updatedTruck.setImg(truck.getImg());
+    updatedTruck.setMake(truck.getMake());
+    updatedTruck.setModel(truck.getModel());
+    updatedTruck.setMpg(truck.getMpg());
+    updatedTruck.setSpace(truck.getSpace());
+    updatedTruck.setType(truck.getType());
+    updatedTruck.setVolume(truck.getVolume());
+    updatedTruck.setWeight(truck.getWeight());
+    updatedTruck.setYear(truck.getYear());
+    return repo.save(updatedTruck);
+  };
 
   @Transactional
   public void deleteTruck(int id) {
