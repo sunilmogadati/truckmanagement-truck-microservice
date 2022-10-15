@@ -11,12 +11,13 @@ public class TruckTransportation {
   int truckID;
   String make;
   String model;
-  int yr;
+  int year;
   String weight;
   String volume;
   int mpg;
   String space;
   Type type;
+  String img;
 
   // TRANSPORTATION PROPERTIES
   String routeID;
@@ -54,12 +55,12 @@ public class TruckTransportation {
     this.model = model;
   }
 
-  public int getYr() {
-    return yr;
+  public int getYear() {
+    return year;
   }
 
-  public void setYear(int yr) {
-    this.yr = yr;
+  public void setYear(int year) {
+    this.year = year;
   }
 
   public String getWeight() {
@@ -100,6 +101,15 @@ public class TruckTransportation {
 
   public void setType(Type type) {
     this.type = type;
+  }
+  
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
   }
 
   public String getRouteID() {
@@ -153,9 +163,9 @@ public class TruckTransportation {
   @Override
   public String toString() {
     return "TruckTransportation [truckID=" + truckID + ", make=" + make + ", model=" + model
-        + ", yr=" + yr + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space="
-        + space + ", type=" + type + ", routeID=" + routeID + ", startDate=" + startDate
-        + ", endDate=" + endDate + ", source=" + source + ", destination=" + destination
-        + ", status=" + status + "]";
+        + ", year=" + year + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
+        + ", space=" + space + ", type=" + type + ", img=" + img + ", routeID=" + routeID
+        + ", startDate=" + startDate + ", endDate=" + endDate + ", source=" + source
+        + ", destination=" + destination + ", status=" + status + "]";
   }
 }
