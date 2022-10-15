@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 
+    url: jdbc:mysql://truckdb.cydxvceau125.us-east-1.rds.amazonaws.com/truckmanagement
+    username: root
+     
+transportation:
+  url: http://localhost:8000/api/v1/transportation?truckId=  
