@@ -1,9 +1,6 @@
 package com.truck.model;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.truck.enums.Status;
+import java.util.List;
 import com.truck.enums.Type;
 
 public class TruckTransportation {
@@ -20,14 +17,7 @@ public class TruckTransportation {
   String img;
 
   // TRANSPORTATION PROPERTIES
-  String routeID;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private LocalDate startDate;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private LocalDate endDate;
-  private String source;
-  private String destination;
-  private Status status;
+  List<Route> routes;
 
   public TruckTransportation() {}
 
@@ -102,7 +92,7 @@ public class TruckTransportation {
   public void setType(Type type) {
     this.type = type;
   }
-  
+
 
   public String getImg() {
     return img;
@@ -112,60 +102,19 @@ public class TruckTransportation {
     this.img = img;
   }
 
-  public String getRouteID() {
-    return routeID;
+  public List<Route> getRoutes() {
+    return routes;
   }
 
-  public void setRouteID(String routeID) {
-    this.routeID = routeID;
-  }
-
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  public void setStartDate(LocalDate startDate) {
-    this.startDate = startDate;
-  }
-
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(LocalDate endDate) {
-    this.endDate = endDate;
-  }
-
-  public String getSource() {
-    return source;
-  }
-
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  public String getDestination() {
-    return destination;
-  }
-
-  public void setDestination(String destination) {
-    this.destination = destination;
-  }
-
-  public Status getStatus() {
-    return status;
-  }
-
-  public void setStatus(Status status) {
-    this.status = status;
+  public void setRoutes(List<Route> routes) {
+    this.routes = routes;
   }
 
   @Override
   public String toString() {
     return "TruckTransportation [truckID=" + truckID + ", make=" + make + ", model=" + model
         + ", year=" + year + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
-        + ", space=" + space + ", type=" + type + ", img=" + img + ", routeID=" + routeID
-        + ", startDate=" + startDate + ", endDate=" + endDate + ", source=" + source
-        + ", destination=" + destination + ", status=" + status + "]";
+        + ", space=" + space + ", type=" + type + ", img=" + img + ", routes=" + routes + "]";
   }
+ 
 }

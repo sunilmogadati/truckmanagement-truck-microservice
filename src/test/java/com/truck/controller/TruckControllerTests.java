@@ -35,10 +35,10 @@ public class TruckControllerTests {
   @SuppressWarnings("unchecked")
   public void givenValidTruck_WhenGetTrucks_ThenReturnJsonArray() throws Exception {
     given(service.getAllTrucksExt(Collections.EMPTY_MAP))
-      .willReturn(Collections.singletonList(truckA));
+        .willReturn(Collections.singletonList(truckA));
     mvc.perform(get("/api/v1/truck/").contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk()).andExpect(jsonPath("$[0].model", is(truckA.getModel())))
-      .andExpect(jsonPath("$", hasSize(1)));
+        .andExpect(status().isOk()).andExpect(jsonPath("$[0].model", is(truckA.getModel())))
+        .andExpect(jsonPath("$", hasSize(1)));
     Mockito.reset(service);
   }
 
@@ -46,8 +46,8 @@ public class TruckControllerTests {
   public void givenValidTruck_WhenGetTruckById_ReturnTruck() throws Exception {
     given(service.getTruckById(12)).willReturn(truckA);
     mvc.perform(get("/api/v1/truck/12").contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk()).andExpect(jsonPath("model", is(truckA.getModel())))
-      .andExpect(jsonPath("make", is(truckA.getMake())));
+        .andExpect(status().isOk()).andExpect(jsonPath("model", is(truckA.getModel())))
+        .andExpect(jsonPath("make", is(truckA.getMake())));
     Mockito.reset(service);
   }
 
@@ -61,8 +61,7 @@ public class TruckControllerTests {
 
   @Test
   public void GivenValidMake_WhenGetTruckByMake_ReturnTruck() throws Exception {
-    given(service.getAllTrucksConditional(0, "AMC"))
-        .willReturn(Collections.singletonList(truckA));
+    given(service.getAllTrucksConditional(0, "AMC")).willReturn(Collections.singletonList(truckA));
     mvc.perform(get("/api/v1/truck/make/AMC")).andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
         .andExpect(jsonPath("$[0].model", is(truckA.getModel())));
@@ -71,8 +70,7 @@ public class TruckControllerTests {
 
   @Test
   public void GivenAbsentMake_WhenGetTruckByMake_ReturnEmptyArray() throws Exception {
-    given(service.getAllTrucksConditional(0, "BMC"))
-        .willReturn(new ArrayList<Truck>());
+    given(service.getAllTrucksConditional(0, "BMC")).willReturn(new ArrayList<Truck>());
     mvc.perform(get("/api/v1/truck/make/BMC")).andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(0)));
     Mockito.reset(service);
@@ -90,18 +88,17 @@ public class TruckControllerTests {
 
   @Test
   public void GivenAbsentModel_WhenGetTruckByModel_ReturnEmptyArray() throws Exception {
-    given(service.getAllTrucksConditional(1, "Wasp"))
-        .willReturn(new ArrayList<Truck>());
+    given(service.getAllTrucksConditional(1, "Wasp")).willReturn(new ArrayList<Truck>());
     mvc.perform(get("/api/v1/truck/model/Wasp")).andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(0)));
     Mockito.reset(service);
   }
 
   @Test
-  public void GivenValidYear_WhenGetTrucksByYear_ReturnTrucks() throws Exception{
+  public void GivenValidYear_WhenGetTrucksByYear_ReturnTrucks() throws Exception {
     given(service.getAllTrucksConditional(2, "1976")).willReturn(Collections.singletonList(truckA));
     mvc.perform(get("/api/v1/truck/year/1976")).andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].year", is(1976)));
+        .andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].year", is(1976)));
   }
 
   @Test
@@ -109,6 +106,6 @@ public class TruckControllerTests {
   public void GivenInvalidYear_WhenGetTruckByYear_ReturnsEmptyArray() throws Exception {
     given(service.getAllTrucksConditional(2, "1900")).willReturn(Collections.EMPTY_LIST);
     mvc.perform(get("/api/v1/truck/year/1900")).andExpect(status().isOk())
-      .andExpect(jsonPath("$", hasSize(0)));
+        .andExpect(jsonPath("$", hasSize(0)));
   }
 }

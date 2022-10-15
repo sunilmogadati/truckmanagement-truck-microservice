@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.truck.service.TruckService;
 
 import java.util.List;
@@ -57,15 +57,15 @@ public class TruckController {
   }
 
   @PostMapping
-  public ResponseEntity<Truck> addTruck(@RequestBody Truck truck) {
-    return ResponseEntity.ok(service.addTruck(truck));
+  public ResponseEntity<Truck> addTruck(@ModelAttribute Truck truck, @ModelAttribute("file") MultipartFile file) {
+    return ResponseEntity.ok(service.addTruck(truck, file));
   }
-  
+
   @PutMapping
-  public ResponseEntity<Truck> put(@RequestBody Truck truck){
-    return ResponseEntity.ok(service.put(truck));
+  public ResponseEntity<Truck> put(@ModelAttribute Truck truck, @ModelAttribute("file") MultipartFile file) {
+    return ResponseEntity.ok(service.put(truck, file));
   }
-  
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Truck> deleteTruck(@PathVariable("id") int id) {
     try {

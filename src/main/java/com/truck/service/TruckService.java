@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.truck.repo.TruckRepo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class TruckService {
 
   @Autowired
   private TruckRepo repo;
+  @Autowired 
+  private S3Service s3;
 
   @Transactional(readOnly = true)
   public Truck getTruckById(int id) {
@@ -145,15 +148,25 @@ public class TruckService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Truck addTruck(Truck truck) {
+  public Truck addTruck(Truck truck, MultipartFile file) {
+
+    Truck newTruck = truck;
+    String imgURL = s3.upload(file);
+    
+    // SAVE URL
+    newTruck.setImg(imgURL);   
+
     return repo.save(truck);
   }
-  
+
   @Transactional
-  public Truck put(Truck truck) {
+  public Truck put(Truck truck, MultipartFile file) {
     Truck updatedTruck = repo.findById(truck.getId()).orElse(null);
+
+    String newImgURL = s3.upload(file);
+    s3.deleteFile(truck.getImg());
     
-    updatedTruck.setImg(truck.getImg());
+    updatedTruck.setImg(newImgURL);
     updatedTruck.setMake(truck.getMake());
     updatedTruck.setModel(truck.getModel());
     updatedTruck.setMpg(truck.getMpg());
@@ -170,5 +183,7 @@ public class TruckService {
     Truck truck = repo.findById(id)
         .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
     repo.delete(truck);
+    s3.deleteFile(truck.getImg());
+ 
   }
 }

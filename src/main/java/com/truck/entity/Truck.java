@@ -36,11 +36,11 @@ public class Truck {
   @Column(name = "truck_type", columnDefinition = "ENUM('GAS','HYBRID','ELECTRIC')")
   @Enumerated(EnumType.STRING)
   private Type type;
-  
+
   private String img;
 
   public Truck() {}
-  
+
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
       String space, Type type, String img) {
     super();
@@ -139,6 +139,7 @@ public class Truck {
   public void setImg(String img) {
     this.img = img;
   }
+  
 
   @Override
   public String toString() {
