@@ -1,16 +1,21 @@
 package com.truck.service;
 
 import com.truck.entity.Truck;
+import com.truck.enums.Status;
+import com.truck.enums.Type;
+import com.truck.model.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.truck.repo.TruckRepo;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +33,28 @@ public class TruckService {
   @Autowired 
   private S3Service s3;
 
+  @CircuitBreaker(name = "transportation", fallbackMethod = "findTruckByID")
   @Transactional(readOnly = true)
   public Truck getTruckById(int id) {
-    return repo.findById(id)
+    Truck truck = repo.findById(id)
         .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
+
+    ResponseEntity<List<Route>> res = ResponseEntity.ok(rest.getForObject(url+id, List.class));
+    truck.setRoutes(res.getBody());
+    
+    return truck;
+  }
+  
+  public Truck findTruckByID(int id, Exception e) {
+    Truck foundTruck = repo.findById(id).orElse(new Truck(id,"Honda","Ridgeline", 2010, "6000 kg", "15M", 35, "12m x 2.5m", Type.HYBRID, null, null));
+    
+    List<Route> routes = new ArrayList<>();
+    LocalDate startDate = LocalDate.of(2010, 12, 30);
+    LocalDate endDate = LocalDate.of(2010, 12, 30);
+    routes.add(new Route("1001", startDate, endDate, "source", "destination", Status.IN_PROGRESS));
+    foundTruck.setRoutes(routes);
+    
+    return foundTruck;
   }
 
   @Transactional(readOnly = true)
