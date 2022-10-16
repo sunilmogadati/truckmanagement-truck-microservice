@@ -164,7 +164,9 @@ public class TruckService {
     Truck updatedTruck = repo.findById(truck.getId()).orElse(null);
 
     String newImgURL = s3.upload(file);
-    s3.deleteFile(truck.getImg());
+    String removeURL = "https://truckmanagement.s3.us-west-1.amazonaws.com/";
+    String fileName = truck.getImg().replace(removeURL, "");
+    s3.deleteFile(fileName);
     
     updatedTruck.setImg(newImgURL);
     updatedTruck.setMake(truck.getMake());
@@ -183,7 +185,9 @@ public class TruckService {
     Truck truck = repo.findById(id)
         .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
     repo.delete(truck);
-    s3.deleteFile(truck.getImg());
+    String removeURL = "https://truckmanagement.s3.us-west-1.amazonaws.com/";
+    String fileName = truck.getImg().replace(removeURL, "");
+    s3.deleteFile(fileName);
  
   }
 }

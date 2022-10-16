@@ -1,6 +1,8 @@
 package com.truck.entity;
 
 import com.truck.enums.Type;
+import com.truck.model.Route;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity(name = "TruckEntity")
@@ -38,11 +40,14 @@ public class Truck {
   private Type type;
 
   private String img;
+  
+  @Transient
+  private List<Route> routes;
 
   public Truck() {}
 
   public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
-      String space, Type type, String img) {
+      String space, Type type, String img, List<Route> routes) {
     super();
     this.id = id;
     this.make = make;
@@ -54,10 +59,11 @@ public class Truck {
     this.space = space;
     this.type = type;
     this.img = img;
+    this.routes = routes;
   }
 
   public Truck(int id, String make, String model, int year) {
-    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS, null);
+    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS, null, null);
   }
 
   public int getId() {
@@ -139,13 +145,20 @@ public class Truck {
   public void setImg(String img) {
     this.img = img;
   }
-  
+
+  public List<Route> getRoutes() {
+    return routes;
+  }
+
+  public void setRoutes(List<Route> routes) {
+    this.routes = routes;
+  }
 
   @Override
   public String toString() {
     return "Truck [id=" + id + ", make=" + make + ", model=" + model + ", year=" + year
         + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space=" + space
-        + ", type=" + type + ", img=" + img + "]";
+        + ", type=" + type + ", img=" + img + ", routes=" + routes + "]";
   }
 
 }
