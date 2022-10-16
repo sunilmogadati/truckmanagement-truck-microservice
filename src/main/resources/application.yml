@@ -6,3 +6,33 @@ spring:
     active:
     - dev
     - prod
+    
+#management:
+#  health:
+#    circuitbreakers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health
+#  endpoint:
+#    health:
+#      show-details: always
+#
+## managed state of the circuit breaker
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      transportation:
+#        registerHealthIndicator: true
+#        eventConsumerBufferSize: 10
+#        
+##       If 50% of request from the service A to service B will fail, it would change the status to Open
+#        failureRateThreshold: 50
+#        minimumNumberOfCalls: 5
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        waitDurationInOpenState: 5s
+#        # After 3 calls, it will determine the state: success -> Closed or fail -> Open
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        slidingWindowSize: 10
+#        slidingWindowType: COUNT_BASED

@@ -14,6 +14,19 @@ public class Route {
   private String source;
   private String destination;
   private Status status;
+  
+  public Route() {}
+
+  public Route(String routeID, LocalDate startDate, LocalDate endDate, String source,
+      String destination, Status status) {
+    super();
+    this.routeID = routeID;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.source = source;
+    this.destination = destination;
+    this.status = status;
+  }
 
   public String getRouteID() {
     return routeID;

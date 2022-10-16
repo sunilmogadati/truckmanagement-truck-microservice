@@ -2,11 +2,13 @@ package com.truck.service;
 
 import com.truck.entity.Truck;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.truck.repo.TruckRepo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -16,8 +18,13 @@ import java.util.Map;
 @Service
 public class TruckService {
 
+  @Value("${transportation.url}")
+  private String url;
+  
   @Autowired
   private TruckRepo repo;
+  @Autowired
+  private RestTemplate rest;
   @Autowired 
   private S3Service s3;
 
