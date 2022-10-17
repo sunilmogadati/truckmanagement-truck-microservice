@@ -1,50 +1,28 @@
-package com.truck.entity;
+package com.truck.model;
 
+import java.util.List;
 import com.truck.enums.Type;
-import javax.persistence.*;
 
-@Entity(name = "TruckEntity")
-@Table(name = "trucks")
-public class Truck {
-
-  @Id
-  @Column(name = "truck_id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
-  @Column(name = "truck_make")
+public class TruckTransportation {
+  
+  private int truckID;
   private String make;
-
-  @Column(name = "truck_model")
   private String model;
-
-  @Column(name = "truck_year")
   private int year;
-
-  @Column(name = "truck_weight")
   private String weight;
-
-  @Column(name = "truck_volume")
   private String volume;
-
-  @Column(name = "truck_mpg")
   private int mpg;
-
-  @Column(name = "truck_space")
   private String space;
-
-  @Column(name = "truck_type", columnDefinition = "ENUM('GAS','HYBRID','ELECTRIC')")
-  @Enumerated(EnumType.STRING)
   private Type type;
-
   private String img;
-
-  public Truck() {}
-
-  public Truck(int id, String make, String model, int year, String weight, String volume, int mpg,
-      String space, Type type, String img) {
+  private List<Route> routes;
+  
+  public TruckTransportation (){}
+  
+  public TruckTransportation(int truckID, String make, String model, int year, String weight,
+      String volume, int mpg, String space, Type type, String img, List<Route> routes) {
     super();
-    this.id = id;
+    this.truckID = truckID;
     this.make = make;
     this.model = model;
     this.year = year;
@@ -54,18 +32,15 @@ public class Truck {
     this.space = space;
     this.type = type;
     this.img = img;
+    this.routes = routes;
   }
 
-  public Truck(int id, String make, String model, int year) {
-    this(id, make, model, year, "0kg", "0 cu. m", 0, "0 cu. m", Type.GAS, null);
+  public int getTruckID() {
+    return truckID;
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
+  public void setTruckID(int truckID) {
+    this.truckID = truckID;
   }
 
   public String getMake() {
@@ -140,11 +115,18 @@ public class Truck {
     this.img = img;
   }
 
-  @Override
-  public String toString() {
-    return "Truck [id=" + id + ", make=" + make + ", model=" + model + ", year=" + year
-        + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg + ", space=" + space
-        + ", type=" + type + ", img=" + img + "]";
+  public List<Route> getRoutes() {
+    return routes;
   }
 
+  public void setRoutes(List<Route> routes) {
+    this.routes = routes;
+  }
+
+  @Override
+  public String toString() {
+    return "TruckTransportation [truckID=" + truckID + ", make=" + make + ", model=" + model
+        + ", year=" + year + ", weight=" + weight + ", volume=" + volume + ", mpg=" + mpg
+        + ", space=" + space + ", type=" + type + ", img=" + img + ", routes=" + routes + "]";
+  }
 }

@@ -1,6 +1,7 @@
 package com.truck.controller;
 
 import com.truck.entity.Truck;
+import com.truck.model.TruckTransportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class TruckController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Truck> findTruckById(@PathVariable("id") int id) {
-    Truck truck;
+  public ResponseEntity<TruckTransportation> findTruckById(@PathVariable("id") int id) {
+    TruckTransportation truck;
 
     try {
       truck = service.getTruckById(id);
     } catch (RuntimeException e) {
-      return new ResponseEntity<Truck>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<TruckTransportation>(HttpStatus.NOT_FOUND);
     }
 
     return ResponseEntity.ok(truck);

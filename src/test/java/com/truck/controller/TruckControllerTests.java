@@ -42,14 +42,14 @@ public class TruckControllerTests {
     Mockito.reset(service);
   }
 
-  @Test
-  public void givenValidTruck_WhenGetTruckById_ReturnTruck() throws Exception {
-    given(service.getTruckById(12)).willReturn(truckA);
-    mvc.perform(get("/api/v1/truck/12").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk()).andExpect(jsonPath("model", is(truckA.getModel())))
-        .andExpect(jsonPath("make", is(truckA.getMake())));
-    Mockito.reset(service);
-  }
+//  @Test
+//  public void givenValidTruck_WhenGetTruckById_ReturnTruck() throws Exception {
+//    given(service.getTruckById(12)).willReturn(truckA);
+//    mvc.perform(get("/api/v1/truck/12").contentType(MediaType.APPLICATION_JSON))
+//        .andExpect(status().isOk()).andExpect(jsonPath("model", is(truckA.getModel())))
+//        .andExpect(jsonPath("make", is(truckA.getMake())));
+//    Mockito.reset(service);
+//  }
 
   @Test
   public void GivenInvalidTruck_WhenGetTruckById_ThrowsException() throws Exception {

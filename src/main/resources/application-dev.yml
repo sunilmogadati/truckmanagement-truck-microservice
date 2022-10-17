@@ -6,4 +6,4 @@ spring:
     username: root
      
 transportation:
-  url: http://ec2-3-87-185-23.compute-1.amazonaws.com:8080/api/vi/transportation?truckID=
+  url: http://ec2-3-87-185-23.compute-1.amazonaws.com/api/vi/transportation?truck_id=

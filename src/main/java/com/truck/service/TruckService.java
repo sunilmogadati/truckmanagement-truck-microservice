@@ -4,6 +4,7 @@ import com.truck.entity.Truck;
 import com.truck.enums.Status;
 import com.truck.enums.Type;
 import com.truck.model.Route;
+import com.truck.model.TruckTransportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -35,26 +36,34 @@ public class TruckService {
 
   @CircuitBreaker(name = "transportation", fallbackMethod = "findTruckByID")
   @Transactional(readOnly = true)
-  public Truck getTruckById(int id) {
-    Truck truck = repo.findById(id)
+  public TruckTransportation getTruckById(int id) {
+    Truck foundTruck = repo.findById(id)
         .orElseThrow(() -> new RuntimeException("Unable to find truck with ID: " + id));
 
     ResponseEntity<List<Route>> res = ResponseEntity.ok(rest.getForObject(url+id, List.class));
-    truck.setRoutes(res.getBody());
+    
+    TruckTransportation truck = new TruckTransportation(
+          foundTruck.getId(),foundTruck.getMake(),foundTruck.getModel(),foundTruck.getYear(),foundTruck.getWeight(),foundTruck.getVolume(),
+          foundTruck.getMpg(),foundTruck.getSpace(),foundTruck.getType(),foundTruck.getImg(),res.getBody()
+        );
     
     return truck;
   }
   
-  public Truck findTruckByID(int id, Exception e) {
-    Truck foundTruck = repo.findById(id).orElse(new Truck(id,"Honda","Ridgeline", 2010, "6000 kg", "15M", 35, "12m x 2.5m", Type.HYBRID, null, null));
+  public TruckTransportation findTruckByID(int id, Exception e) {
+    Truck foundTruck = repo.findById(id).orElse(new Truck(id,"Honda","Ridgeline", 2010, "6000 kg", "15M", 35, "12m x 2.5m", Type.HYBRID, null));
     
     List<Route> routes = new ArrayList<>();
     LocalDate startDate = LocalDate.of(2010, 12, 30);
     LocalDate endDate = LocalDate.of(2010, 12, 30);
     routes.add(new Route("1001", startDate, endDate, "source", "destination", Status.IN_PROGRESS));
-    foundTruck.setRoutes(routes);
     
-    return foundTruck;
+    TruckTransportation truck = new TruckTransportation(
+        foundTruck.getId(),foundTruck.getMake(),foundTruck.getModel(),foundTruck.getYear(),foundTruck.getWeight(),foundTruck.getVolume(),
+        foundTruck.getMpg(),foundTruck.getSpace(),foundTruck.getType(),foundTruck.getImg(),routes
+        );
+    
+    return truck;
   }
 
   @Transactional(readOnly = true)
