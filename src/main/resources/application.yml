@@ -1,3 +1,10 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://ec2-54-146-255-132.compute-1.amazonaws.com:8020/eureka     
+
 server:
   port: 9000
 
@@ -8,16 +15,7 @@ spring:
     active:
     - dev
     - prod
-
-#eureka:
-#  client:
-#    fetch-registry: true
-#    register-with-eureka: true
-#    serviceUrl:
-#      defaultZone: http://localhost:8020/eureka/
-#  instance:
-#    hostname: localhost    
-    
+     
 management:
   health:
     circuitbreakers:
